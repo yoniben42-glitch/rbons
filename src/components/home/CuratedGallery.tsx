@@ -8,9 +8,7 @@ import { useGalleryAssets } from "@/lib/gallery-client";
 import { GALLERY_CATEGORIES } from "@/types/gallery";
 import { AdaptiveImage } from "../common/AdaptiveImage";
 
-const CATEGORIES = GALLERY_CATEGORIES
-  .filter(({ id }) => !["commercial", "other"].includes(id))
-  .map((category) => category.id === "newborn-kids-family" ? { ...category, label: "Family" } : category) as ReadonlyArray<{ id: ImageCategory; label: string }>;
+const CATEGORIES = GALLERY_CATEGORIES as ReadonlyArray<{ id: ImageCategory; label: string }>;
 
 
 export const CuratedGallery: React.FC = () => {
