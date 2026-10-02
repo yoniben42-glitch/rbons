@@ -6,6 +6,9 @@
 export type ImageOrientation = 'portrait' | 'landscape' | 'square';
 
 export type ImageCategory =
+  | 'wedding-couples'
+  | 'children-family'
+  | 'culture-events'
   | 'weddings'
   | 'maternity'
   | 'engagement'
