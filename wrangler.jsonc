@@ -1,0 +1,36 @@
+{
+  // Cloudflare Workers configuration for the TanStack Start SSR server.
+  //
+  // `npm run build` emits:
+  //   dist/server/server.js  -> Worker module entry (exports { fetch })
+  //   dist/client/**         -> hashed client assets, favicon, og image
+  //
+  // Static assets are matched first; everything else (SSR document requests and
+  // /api/* handlers) falls through to the Worker.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rbonsu-photography",
+  "main": "dist/server/server.js",
+  "compatibility_date": "2026-10-01",
+  // nodejs_compat is required: the SSR bundle imports node:async_hooks, and the
+  // server code uses node:crypto. It also backs process.env, which every
+  // src/server/** module reads for Supabase/Stripe/Resend configuration.
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "dist/client",
+    // "none" keeps SPA/SSR routing in the Worker: unmatched paths are handled
+    // by the TanStack Start router instead of returning a static 404.
+    "not_found_handling": "none"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    // Non-secret runtime configuration. Secrets (SUPABASE_SERVICE_ROLE_KEY,
+    // ADMIN_DASHBOARD_TOKEN, AUDIT_HASH_SALT, STRIPE_SECRET_KEY,
+    // STRIPE_WEBHOOK_SECRET, RESEND_API_KEY) are set with
+    // `wrangler secret put <NAME>` and never committed here.
+    "SUPABASE_STORAGE_BUCKET": "rbonsu-photography",
+    "APP_ORIGIN": "https://www.rbonsuphotography.com",
+    "SUPABASE_URL": "https://qpavbelrhifpkxncwbnr.supabase.co"
+  }
+}

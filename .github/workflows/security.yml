@@ -1,0 +1,36 @@
+name: Security
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  security-events: write
+jobs:
+  router-presence:
+    name: Verify TanStack/Cloudflare entrypoints
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify entry files
+        run: |
+          test -f src/router.tsx
+          test -f src/routeTree.gen.ts
+          test -f src/routes/__root.tsx
+          test -f package.json
+          ! grep -Rni --exclude-dir=node_modules --exclude='package-lock.json' '@cloudflare/vite-plugin' vite.config.ts
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm audit --audit-level=high
+      - run: npm run test:security
+      - run: npm run build

@@ -1,0 +1,17 @@
+services:
+  rbonsu:
+    build: .
+    restart: unless-stopped
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      NODE_ENV: production
+      APP_ORIGIN: ${APP_ORIGIN}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      AUDIT_HASH_SALT: ${AUDIT_HASH_SALT}
+    ports:
+      - "8080:8080"

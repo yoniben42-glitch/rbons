@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.output/
+.wrangler/
+.tanstack/
+.git/
+.github/
+playwright-report/
+test-results/
+coverage/
+.dev.vars*
+.env
+.env.*
+!.env.example
+*.log
