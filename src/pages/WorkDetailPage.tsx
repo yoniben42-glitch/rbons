@@ -15,7 +15,7 @@ import { AdaptiveImage } from '../components/common/AdaptiveImage';
 export const WorkDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const categorySlugs = GALLERY_CATEGORIES.filter(({ id }) => id !== "other").map(({ id }) => id) as ImageCategory[];
+  const categorySlugs = GALLERY_CATEGORIES.map(({ id }) => id) as ImageCategory[];
   const dynamicCategory = categorySlugs.includes(slug as ImageCategory) ? (slug as ImageCategory) : 'all';
   const dynamicGallery = useGalleryAssets(dynamicCategory);
 
@@ -295,4 +295,3 @@ function DynamicCategoryPage({ slug, title, assets, loading }: { slug: ImageCate
     </PageTransition>
   );
 }
-
