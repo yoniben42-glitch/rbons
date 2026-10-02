@@ -10,7 +10,7 @@ import { CURATED_STORIES } from "@/data/imageManifest";
 import { GALLERY_CATEGORIES, normalizeGalleryCategory } from "@/types/gallery";
 import { AdaptiveImage } from "@/components/common/AdaptiveImage";
 
-const CATEGORIES = GALLERY_CATEGORIES.filter(({ id }) => id !== "other") as ReadonlyArray<{ id: ImageCategory; label: string }>;
+const CATEGORIES = GALLERY_CATEGORIES as ReadonlyArray<{ id: ImageCategory; label: string }>;
 
 
 const ORIENTATIONS: { id: ImageOrientation | "all"; label: string }[] = [
