@@ -192,7 +192,7 @@ async function listStorageFolder(prefix: string): Promise<StorageObject[]> {
   return all;
 }
 
-async function readImageHeader(storagePath: string, mimeTypeHint?: string) {
+async function readImageHeader(storagePath: string, mimeTypeHint = "") {
   const response = await fetch(publicStorageUrl(storagePath), {
     method: "GET",
     headers: { Range: "bytes=0-262143" },
@@ -204,6 +204,7 @@ async function readImageHeader(storagePath: string, mimeTypeHint?: string) {
   const buffer = await response.arrayBuffer();
   if (buffer.byteLength === 0) throw new Error(`Empty image for ${storagePath}`);
   const dimensions = readImageDimensions(new Uint8Array(buffer), mimeTypeHint);
+  if (!dimensions) throw new Error(`Could not read image dimensions for ${storagePath}`);
   return dimensions;
 }
 
